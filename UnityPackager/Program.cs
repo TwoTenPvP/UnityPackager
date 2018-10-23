@@ -38,12 +38,11 @@ namespace UnityPackager
 
             for (int i = 0; i < files.Length; i++)
             {
-                string relativeFilePath = Uri.UnescapeDataString(new Uri(inputDirectory).MakeRelativeUri(new Uri(files[i].FullPath)).ToString().Replace('/', Path.DirectorySeparatorChar));
-                string guid = CreateGuid(relativeFilePath);
+                string guid = CreateGuid(files[i].OutputExportPath);
 
                 Directory.CreateDirectory(Path.Combine(tempPath, guid));
                 File.Copy(files[i].FullPath, Path.Combine(tempPath, guid, "asset"));
-                File.WriteAllText(Path.Combine(tempPath, guid, "pathname"), Path.Combine(files[i].OutputExportPath, relativeFilePath));
+                File.WriteAllText(Path.Combine(tempPath, guid, "pathname"), files[i].OutputExportPath);
                 
                 using (StreamWriter writer = new StreamWriter(Path.Combine(tempPath, guid, "asset.meta")))
                 {
