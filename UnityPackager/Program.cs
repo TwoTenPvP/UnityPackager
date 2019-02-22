@@ -88,7 +88,7 @@ namespace UnityPackager
             for (int i = 0; i < files.Length; i++)
             {
                 TarEntry entry = TarEntry.CreateEntryFromFile(files[i]);
-                entry.Name = files[i].Remove(0, archive.RootPath.Length + 1);
+                entry.Name = files[i].Remove(0, archive.RootPath.Length + 1).Replace('\\', '/');
                 archive.WriteEntry(entry, true);
             }
 
