@@ -9,5 +9,8 @@ _Note that this is not officially supported or endorsed by Unity. Use at your ow
 Runs on Linux with the Mono runtime and Windows
 
 ## Usage
+
+#### Pack
 ``./UnityPackager pack Output.unitypackage MyInputFile.cs Assets/Editor/TargetExportPath.cs``
+#### Unpack
 ``./UnityPackager unpack Input.unitypackage ProjectFolder``
