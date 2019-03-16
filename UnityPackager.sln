@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityPackager", "UnityPackager\UnityPackager.csproj", "{61F54D42-B62A-4DCC-9691-EE2AF86A121A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{B23C568A-57F7-4B7D-9792-B42954111AC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityPacker.tests", "Tests\UnityPacker.tests.csproj", "{B23C568A-57F7-4B7D-9792-B42954111AC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
