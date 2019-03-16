@@ -24,7 +24,7 @@ install:
       {
         $Version = $version
       }
-      echo "Version is $Version version is $version"
+      echo "Version is $Version version is $version build is $build"
 
       Set-AppveyorBuildVariable -Name "assembly_version" -Value "$Version"
       Set-AppveyorBuildVariable -Name "assembly_file_version" -Value "$Version"
