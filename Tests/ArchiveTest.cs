@@ -61,6 +61,5 @@ namespace Tests
 
             VerifyTar(expected, outstream);
         }
-
     }
 }
