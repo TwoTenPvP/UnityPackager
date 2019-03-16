@@ -4,11 +4,11 @@ version: 1.1.{build}
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
-  version: '${Version}'
-  package_version: '${Version}'
-  assembly_version: '${Version}'
-  file_version: '${Version}'
-  informational_version: '${Version}'
+  version: '${app_version}'
+  package_version: '${app_version}'
+  assembly_version: '${app_version}'
+  file_version: '${app_version}'
+  informational_version: '${app_version}'
 
 cache:
   - '%APPDATA%\npm-cache'
@@ -29,9 +29,7 @@ install:
       }
       echo "Version is $Version version is $version build is $build"
 
-      Set-AppveyorBuildVariable -Name "assembly_version" -Value "$Version"
-      Set-AppveyorBuildVariable -Name "assembly_file_version" -Value "$Version"
-      Set-AppveyorBuildVariable -Name "assembly_informational_version" -Value "$Version"
+      Set-Variable -Name app_version -Value "$Version" -Scope global
 
 build_script:
   - cmd: dotnet publish -f netcoreapp2.1
