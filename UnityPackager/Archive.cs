@@ -10,22 +10,15 @@ namespace UnityPackager
         /// </summary>
         /// <param name="archive">Archive.</param>
         /// <param name="directory">Directory.</param>
-        public static void AddFilesInDirRecursive(TarArchive archive, string directory)
+        public static void AddFilesRecursive(this TarArchive archive, string directory)
         {
-            string[] files = Directory.GetFiles(directory);
+            string[] files = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
 
-            for (int i = 0; i < files.Length; i++)
+            foreach (string filename in files)
             {
-                TarEntry entry = TarEntry.CreateEntryFromFile(files[i]);
-                entry.Name = files[i].Remove(0, archive.RootPath.Length + 1).Replace('\\', '/');
+                TarEntry entry = TarEntry.CreateEntryFromFile(filename);
+                entry.Name = entry.Name.Replace('\\', '/');
                 archive.WriteEntry(entry, true);
-            }
-
-            string[] subDirs = Directory.GetDirectories(directory);
-
-            for (int i = 0; i < subDirs.Length; i++)
-            {
-                AddFilesInDirRecursive(archive, subDirs[i]);
             }
         }
     }
