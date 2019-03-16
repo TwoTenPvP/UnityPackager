@@ -1,15 +1,40 @@
 version: 1.1.{build}
+
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
-  version: '{version}'
-  package_version: '{version}'
-  assembly_version: '{version}'
-  file_version: '{version}'
-  informational_version: '{version}'
+  version: $(app_version)
+  package_version: $(app_version)
+  assembly_version: $(app_version}
+  file_version: $(app_version)
+  informational_version: $(app_version)
+
+cache:
+  - '%APPDATA%\npm'
+
+install:
+  - npm install -g semantic-release@15
+  - ps: |
+      semantic-release --dry-run |  %{ 
+        $fields = -split $_;
+        if ($fields[0] -eq "#") {
+          Set-Variable -Name "app_version" -Value $fields[1]
+        }
+      }
+
+      if ($app_version -eq $null)
+      {
+        Set-Variable -Name "app_version" -Value 0.0.1
+      }
+      echo "Version is $app_version version is $version build is $build"
 
 build_script:
   - cmd: dotnet publish -f netcoreapp2.1
 
 test_script: 
   - cmd: dotnet test -f netcoreapp2.1
+
+deploy_script:
+  - semantic-release
+
+skip_tags: true
