@@ -33,24 +33,22 @@ namespace UnityPackager
 
                 if (!Path.IsPathRooted(outputFile))
                     outputFile = Path.GetFullPath(outputFile);
-            
-                List<FileEntry> entries = new List<FileEntry>();
-                
+
+                Dictionary<string, string> fileMap = new Dictionary<string, string>();
+
                 for (int i = 2; i < args.Length; i += 2)
                 {
-                    FileEntry entry = new FileEntry();
+                    string fromPath = args[i];
 
                     if (!Path.IsPathRooted(args[i]))
-                        entry.FullPath = Path.GetFullPath(args[i]);
-                    else
-                        entry.FullPath = args[i];
+                        fromPath = Path.GetFullPath(fromPath);
 
-                    entry.OutputExportPath = args[i + 1];
+                    string toPath = args[i + 1];
                 
-                    entries.Add(entry);
+                    fileMap.Add(fromPath, toPath);
                 }
 
-                Packer.Pack(entries.ToArray(), outputFile);
+                Packer.Pack(fileMap, outputFile);
             } 
             else if (args[0].ToLower() == "unpack")
             {

@@ -17,6 +17,10 @@ namespace UnityPackager
             foreach (string filename in files)
             {
                 TarEntry entry = TarEntry.CreateEntryFromFile(filename);
+                if (archive.RootPath != null && Path.IsPathRooted(filename))
+                {
+                    entry.Name = Path.GetRelativePath(archive.RootPath, filename);
+                }
                 entry.Name = entry.Name.Replace('\\', '/');
                 archive.WriteEntry(entry, true);
             }

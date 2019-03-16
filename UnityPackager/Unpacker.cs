@@ -9,19 +9,11 @@ namespace UnityPackager
     {
         public static void Unpack(string inputFile, string outputFolder)
         {
-            string tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            string fileName = Path.GetRandomFileName();
+            string tempPath = Path.Combine(Path.GetTempPath(), fileName);
             Directory.CreateDirectory(tempPath);
 
-            using (FileStream stream = new FileStream(inputFile, FileMode.Open))
-            {
-                using (GZipInputStream zipStream = new GZipInputStream(stream))
-                {
-                    using (TarArchive archive = TarArchive.CreateInputTarArchive(zipStream))
-                    {
-                        archive.ExtractContents(tempPath);
-                    }
-                }
-            }
+            Decompress(inputFile, tempPath);
 
             string[] dirEntries = Directory.GetDirectories(tempPath);
 
@@ -36,7 +28,7 @@ namespace UnityPackager
                 string targetPath = Path.Combine(outputFolder, File.ReadAllText(Path.Combine(dirEntries[i], "pathname")));
                 string targetFileNameWithoutExtension = Path.GetFileNameWithoutExtension(targetPath);
                 string targetFolder = Path.GetDirectoryName(targetPath);
-                string targetMetaPath = Path.Combine(outputFolder, targetFolder, targetFileNameWithoutExtension + ".meta");
+                string targetMetaPath = Path.Combine(targetFolder, targetFileNameWithoutExtension + ".meta");
 
                 if (!Directory.Exists(targetFolder))
                     Directory.CreateDirectory(targetFolder);
@@ -53,6 +45,20 @@ namespace UnityPackager
 
             // Clean up
             Directory.Delete(tempPath, true);
+        }
+
+        private static void Decompress(string inputFile, string tempPath)
+        {
+            using (FileStream stream = new FileStream(inputFile, FileMode.Open))
+            {
+                using (GZipInputStream zipStream = new GZipInputStream(stream))
+                {
+                    using (TarArchive archive = TarArchive.CreateInputTarArchive(zipStream))
+                    {
+                        archive.ExtractContents(tempPath);
+                    }
+                }
+            }
         }
     }
 }

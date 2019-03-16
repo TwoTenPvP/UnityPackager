@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
@@ -8,24 +9,23 @@ namespace UnityPackager
 {
     public static class Packer
     {
-        public static void Pack(FileEntry[] files, string outputFile)
+        public static void Pack(IDictionary<string,string> files, string outputFile)
         {
             string randomFile = Path.GetRandomFileName();
 
             string tempPath = Path.Combine(Path.GetTempPath(), randomFile);
             Directory.CreateDirectory(tempPath);
 
-            for (int i = 0; i < files.Length; i++)
+            foreach (KeyValuePair<string, string> fileEntry in files)
             {
-                string guid = Utils.CreateGuid(files[i].OutputExportPath);
+                string guid = Utils.CreateGuid(fileEntry.Value);
 
                 Directory.CreateDirectory(Path.Combine(tempPath, guid));
-                File.Copy(files[i].FullPath, Path.Combine(tempPath, guid, "asset"));
+                File.Copy(fileEntry.Key, Path.Combine(tempPath, guid, "asset"));
 
-                File.WriteAllText(Path.Combine(tempPath, guid, "pathname"), files[i].OutputExportPath);
+                File.WriteAllText(Path.Combine(tempPath, guid, "pathname"), fileEntry.Value);
 
-
-                string metaPath = Path.Combine(Path.GetDirectoryName(files[i].FullPath), Path.GetFileNameWithoutExtension(files[i].FullPath) + ".meta");
+                string metaPath = Path.Combine(Path.GetDirectoryName(fileEntry.Key), Path.GetFileNameWithoutExtension(fileEntry.Key) + ".meta");
 
                 if (File.Exists(metaPath))
                 {
@@ -70,11 +70,7 @@ namespace UnityPackager
                 {
                     using (TarArchive archive = TarArchive.CreateOutputTarArchive(zipStream))
                     {
-                        archive.RootPath = tempPath.Replace('\\', '/');
-
-                        if (archive.RootPath.EndsWith("/"))
-                            archive.RootPath = archive.RootPath.Remove(archive.RootPath.Length - 1);
-
+                        archive.RootPath = tempPath;
                         archive.AddFilesRecursive(tempPath);
                     }
                 }
