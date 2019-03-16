@@ -7,6 +7,6 @@ dotnet_csproj:
   assembly_version: '{version}'
   file_version: '{version}'
   informational_version: '{version}'
-build:
-  publish_core_console: true
-  verbosity: minimal
+
+build_script:
+  - cmd: dotnet publish
