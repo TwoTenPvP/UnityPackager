@@ -12,6 +12,6 @@
   <ItemGroup>
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" />
     <PackageReference Include="SharpZipLib" Version="1.1.0" />
-    <PackageReference Include="YamlDotNet" Version="5.4.0" />
+    <PackageReference Include="YamlDotNet" Version="6.0.0" />
   </ItemGroup>
 </Project>
