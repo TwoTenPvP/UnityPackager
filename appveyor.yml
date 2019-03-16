@@ -10,6 +10,9 @@ dotnet_csproj:
   file_version: '{$Version}'
   informational_version: '{$Version}'
 
+cache:
+  - '%APPDATA%\npm-cache'
+  
 install:
   - npm install -g semantic-release@15
   - ps: |
@@ -22,7 +25,7 @@ install:
 
       if ($Version -eq $null)
       {
-        $Version = $version
+        $Version = "0.0.$build"
       }
       echo "Version is $Version version is $version build is $build"
 
