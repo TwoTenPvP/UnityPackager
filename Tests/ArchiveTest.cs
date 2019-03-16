@@ -57,7 +57,7 @@ namespace Tests
                 archive.AddFilesRecursive("sample");
             }
 
-            var expected = new HashSet<string> { "sample1.txt", "childfolder/sample2.txt" };
+            HashSet<string> expected = new HashSet<string> { "sample1.txt", "childfolder/sample2.txt" };
 
             VerifyTar(expected, outstream);
         }
