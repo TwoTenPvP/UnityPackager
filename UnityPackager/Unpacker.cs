@@ -54,7 +54,5 @@ namespace UnityPackager
             // Clean up
             Directory.Delete(tempPath, true);
         }
-
-
     }
 }

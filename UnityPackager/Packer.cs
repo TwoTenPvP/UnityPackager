@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Security.Cryptography;
-using System.Text;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
 using YamlDotNet.RepresentationModel;
@@ -19,7 +17,7 @@ namespace UnityPackager
 
             for (int i = 0; i < files.Length; i++)
             {
-                string guid = CreateGuid(files[i].OutputExportPath);
+                string guid = Utils.CreateGuid(files[i].OutputExportPath);
 
                 Directory.CreateDirectory(Path.Combine(tempPath, guid));
                 File.Copy(files[i].FullPath, Path.Combine(tempPath, guid, "asset"));
@@ -35,6 +33,8 @@ namespace UnityPackager
                 }
                 else
                 {
+                    // TODO: If a meta file exists, grab it instead of creating this barebones version.
+                    // Requires research on how Unity does it, to fully mimic the real packing behaviour
                     using (StreamWriter writer = new StreamWriter(Path.Combine(tempPath, guid, "asset.meta")))
                     {
                         new YamlStream(new YamlDocument(new YamlMappingNode()
@@ -75,49 +75,10 @@ namespace UnityPackager
                         if (archive.RootPath.EndsWith("/"))
                             archive.RootPath = archive.RootPath.Remove(archive.RootPath.Length - 1);
 
-                        AddFilesInDirRecursive(archive, tempPath);
+                        Utils.AddFilesInDirRecursive(archive, tempPath);
                     }
                 }
             }
         }
-
-        private static string CreateGuid(string input)
-        {
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] inputBytes = Encoding.Unicode.GetBytes(input);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
-
-                StringBuilder stringBuilder = new StringBuilder();
-
-                foreach (byte b in hashBytes)
-                {
-                    stringBuilder.Append(b.ToString("X2"));
-                }
-
-                return stringBuilder.ToString();
-            }
-        }
-
-        private static void AddFilesInDirRecursive(TarArchive archive, string directory)
-        {
-            string[] files = Directory.GetFiles(directory);
-
-            for (int i = 0; i < files.Length; i++)
-            {
-                TarEntry entry = TarEntry.CreateEntryFromFile(files[i]);
-                entry.Name = files[i].Remove(0, archive.RootPath.Length + 1).Replace('\\', '/');
-                archive.WriteEntry(entry, true);
-            }
-
-            string[] subDirs = Directory.GetDirectories(directory);
-
-            for (int i = 0; i < subDirs.Length; i++)
-            {
-                AddFilesInDirRecursive(archive, subDirs[i]);
-            }
-        }
-
-
     }
 }
