@@ -43,7 +43,6 @@ namespace Tests
             HashSet<string> expected = new HashSet<string> { "sample/sample1.txt", "sample/childfolder/sample2.txt" };
 
             VerifyTar(expected, outstream);
-
         }
 
 
