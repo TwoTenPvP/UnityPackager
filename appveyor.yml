@@ -10,3 +10,6 @@ dotnet_csproj:
 
 build_script:
   - cmd: dotnet publish -f netstandard2.0
+
+test_script: 
+  - cmd: dotnet test "[%APPVEYOR_BUILD_FOLDER%\src\ProjectName]" -c %CONFIGURATION%
