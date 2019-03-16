@@ -88,6 +88,5 @@ namespace UnityPackager
             Console.WriteLine("\t" + "UnityPackager pack MyPackage.unitypackage MyFile.cs Assets/MyFile.cs");
             Console.WriteLine("\t" + "UnityPackager unpack MyPackage.unitypackage MyProjectFolder");
         }
-
     }
 }
