@@ -12,7 +12,9 @@ namespace UnityPackager
     {
         public static void Pack(FileEntry[] files, string outputFile)
         {
-            string tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            string randomFile = Path.GetRandomFileName();
+
+            string tempPath = Path.Combine(Path.GetTempPath(), randomFile);
             Directory.CreateDirectory(tempPath);
 
             for (int i = 0; i < files.Length; i++)
@@ -54,6 +56,14 @@ namespace UnityPackager
             if (File.Exists(outputFile))
                 File.Delete(outputFile);
 
+            Compress(outputFile, tempPath);
+
+            // Clean up
+            Directory.Delete(tempPath, true);
+        }
+
+        private static void Compress(string outputFile, string tempPath)
+        {
             using (FileStream stream = new FileStream(outputFile, FileMode.CreateNew))
             {
                 using (GZipOutputStream zipStream = new GZipOutputStream(stream))
@@ -69,9 +79,6 @@ namespace UnityPackager
                     }
                 }
             }
-
-            // Clean up
-            Directory.Delete(tempPath, true);
         }
 
         private static string CreateGuid(string input)
