@@ -1,6 +1,4 @@
-version: '1.0.{build}'
-image: Visual Studio 2017
-
+version: 1.0.{build}
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
@@ -9,7 +7,7 @@ dotnet_csproj:
   assembly_version: '{version}'
   file_version: '{version}'
   informational_version: '{version}'
- 
-build_script:
-  - cmd: dotnet publish
+build:
+  publish_core_console: true
+  verbosity: minimal
   
