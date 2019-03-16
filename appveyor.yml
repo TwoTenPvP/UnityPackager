@@ -10,7 +10,7 @@ dotnet_csproj:
   informational_version: $(app_version)
 
 cache:
-  - '%APPDATA%\npm-cache'
+  - '%APPDATA%\npm'
 
 install:
   - npm install -g semantic-release@15
@@ -36,4 +36,5 @@ test_script:
 
 deploy_script:
   - semantic-release
-  
+
+skip_tags: true
