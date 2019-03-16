@@ -13,7 +13,15 @@ dotnet_csproj:
 install:
   - npm install -g semantic-release@15
   - ps: |
-      semantic-release --dry-run | Select-String -Pattern '^# '
+      semantic-release --dry-run |  %{ 
+        $fields = -split $_;
+        if ($fields[0] -eq "#") {
+          Set-Variable -Name "Version" -Value $fields[1]
+        }
+      }
+
+      echo "Version is $Version"
+      
       Set-AppveyorBuildVariable -Name "assembly_version" -Value "1.0.0"
       Set-AppveyorBuildVariable -Name "assembly_file_version" -Value "1.0.0"
       Set-AppveyorBuildVariable -Name "assembly_informational_version" -Value "1.0.0"
