@@ -16,7 +16,7 @@ namespace Tests
 
             using (TarArchive archive = TarArchive.CreateInputTarArchive(instream))
             {
-                var entries = new HashSet<string>();
+                HashSet<string> entries = new HashSet<string>();
 
                 archive.ProgressMessageEvent += (ar, entry, message) =>
                 {
@@ -33,14 +33,14 @@ namespace Tests
         [Fact]
         public void TestRecursiveAdd()
         {
-            var outstream = new MemoryStream();
+            MemoryStream outstream = new MemoryStream();
 
             using (TarArchive archive = TarArchive.CreateOutputTarArchive(outstream))
             {
                 archive.AddFilesRecursive("sample");
             }
 
-            var expected = new HashSet<string> { "sample/sample1.txt", "sample/childfolder/sample2.txt" };
+            HashSet<string> expected = new HashSet<string> { "sample/sample1.txt", "sample/childfolder/sample2.txt" };
 
             VerifyTar(expected, outstream);
 
@@ -50,7 +50,7 @@ namespace Tests
         [Fact]
         public void TestRecursiveAddStripping()
         {
-            var outstream = new MemoryStream();
+            MemoryStream outstream = new MemoryStream();
 
             using (TarArchive archive = TarArchive.CreateOutputTarArchive(outstream))
             {

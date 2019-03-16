@@ -15,7 +15,7 @@ namespace UnityPackager
         {
             string[] files = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
 
-            foreach (var filename in files)
+            foreach (string filename in files)
             {
                 TarEntry entry = TarEntry.CreateEntryFromFile(filename);
                 entry.Name = entry.Name.Replace('\\', '/');
