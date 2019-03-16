@@ -15,7 +15,19 @@ namespace UnityPackager
 
             string tempPath = Path.Combine(Path.GetTempPath(), randomFile);
             Directory.CreateDirectory(tempPath);
+            AddAssets(files, tempPath);
 
+            if (File.Exists(outputFile))
+                File.Delete(outputFile);
+
+            Compress(outputFile, tempPath);
+
+            // Clean up
+            Directory.Delete(tempPath, true);
+        }
+
+        private static void AddAssets(IDictionary<string, string> files, string tempPath)
+        {
             foreach (KeyValuePair<string, string> fileEntry in files)
             {
                 string guid = Utils.CreateGuid(fileEntry.Value);
@@ -52,14 +64,6 @@ namespace UnityPackager
                     }
                 }
             }
-
-            if (File.Exists(outputFile))
-                File.Delete(outputFile);
-
-            Compress(outputFile, tempPath);
-
-            // Clean up
-            Directory.Delete(tempPath, true);
         }
 
         private static void Compress(string outputFile, string tempPath)
