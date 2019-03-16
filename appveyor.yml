@@ -1,6 +1,5 @@
 version: 1.1.{build}
 
-
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
@@ -35,3 +34,6 @@ build_script:
 test_script: 
   - cmd: dotnet test -f netcoreapp2.1
 
+deploy_script:
+  - semantic-release
+  
