@@ -4,15 +4,15 @@ version: 1.1.{build}
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
-  version: '{$Version}'
-  package_version: '{$Version}'
-  assembly_version: '{$Version}'
-  file_version: '{$Version}'
-  informational_version: '{$Version}'
+  version: '{$assembly_version}'
+  package_version: '{$assembly_version}'
+  assembly_version: '{$assembly_version}'
+  file_version: '{$assembly_version}'
+  informational_version: '{$assembly_version}'
 
 cache:
   - '%APPDATA%\npm-cache'
-  
+
 install:
   - npm install -g semantic-release@15
   - ps: |
