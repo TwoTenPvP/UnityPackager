@@ -9,4 +9,4 @@ dotnet_csproj:
   informational_version: '{version}'
 
 build_script:
-  - cmd: dotnet publish
+  - cmd: dotnet publish -f netstandard2.0
