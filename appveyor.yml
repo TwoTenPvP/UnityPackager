@@ -1,4 +1,11 @@
 version: 1.1.{build}
+
+init: 
+  - ps: |
+    Set-AppveyorBuildVariable -Name "assembly_version" -Value "1.0"  
+    Set-AppveyorBuildVariable -Name "assembly_file_version" -Value "1.0.0.0"  
+    Set-AppveyorBuildVariable -Name "assembly_informational_version" -Value "1.0.0"
+
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
@@ -8,8 +15,12 @@ dotnet_csproj:
   file_version: '{version}'
   informational_version: '{version}'
 
+install:
+  - npm install -g semantic-release@15
+
 build_script:
   - cmd: dotnet publish -f netcoreapp2.1
 
 test_script: 
   - cmd: dotnet test -f netcoreapp2.1
+
