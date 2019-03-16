@@ -4,11 +4,11 @@ version: 1.1.{build}
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
-  version: '{$assembly_version}'
-  package_version: '{$assembly_version}'
-  assembly_version: '{$assembly_version}'
-  file_version: '{$assembly_version}'
-  informational_version: '{$assembly_version}'
+  version: '{assembly_version}'
+  package_version: '{assembly_version}'
+  assembly_version: '{assembly_version}'
+  file_version: '{assembly_version}'
+  informational_version: '{assembly_version}'
 
 cache:
   - '%APPDATA%\npm-cache'
@@ -23,10 +23,6 @@ install:
         }
       }
 
-      if ($Version -eq $null)
-      {
-        $Version = "0.0.$build"
-      }
       echo "Version is $Version version is $version build is $build"
 
       Set-AppveyorBuildVariable -Name "assembly_version" -Value "$Version"
