@@ -1,10 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using ICSharpCode.SharpZipLib.Tar;
 
 namespace UnityPackager
 {
-    public class Archive
+    public static class Archive
     {
         /// <summary>
         /// Tar a folder recursively
