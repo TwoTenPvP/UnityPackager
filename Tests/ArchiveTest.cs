@@ -12,7 +12,7 @@ namespace Tests
         // check that the tar contains the expected files
         private static void VerifyTar(HashSet<String> expected, MemoryStream outstream)
         {
-            var instream = new MemoryStream(outstream.ToArray(), false);
+            MemoryStream instream = new MemoryStream(outstream.ToArray(), false);
 
             using (TarArchive archive = TarArchive.CreateInputTarArchive(instream))
             {
