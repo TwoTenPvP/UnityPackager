@@ -17,15 +17,15 @@ namespace UnityPackager
 
             string[] dirEntries = Directory.GetDirectories(tempPath);
 
-            for (int i = 0; i < dirEntries.Length; i++)
+            foreach (string dirEntry in dirEntries)
             {
-                if (!File.Exists(Path.Combine(dirEntries[i], "pathname")) || !File.Exists(Path.Combine(dirEntries[i], "asset")) || !File.Exists(Path.Combine(dirEntries[i], "asset.meta")))
+                if (!File.Exists(Path.Combine(dirEntry, "pathname")) || !File.Exists(Path.Combine(dirEntry, "asset")) || !File.Exists(Path.Combine(dirEntry, "asset.meta")))
                 {
                     // Invalid format
                     continue;
                 }
 
-                string targetPath = Path.Combine(outputFolder, File.ReadAllText(Path.Combine(dirEntries[i], "pathname")));
+                string targetPath = Path.Combine(outputFolder, File.ReadAllText(Path.Combine(dirEntry, "pathname")));
                 string targetFileNameWithoutExtension = Path.GetFileNameWithoutExtension(targetPath);
                 string targetFolder = Path.GetDirectoryName(targetPath);
                 string targetMetaPath = Path.Combine(targetFolder, targetFileNameWithoutExtension + ".meta");
@@ -39,8 +39,8 @@ namespace UnityPackager
                 if (File.Exists(targetMetaPath))
                     File.Delete(targetMetaPath);
 
-                File.WriteAllText(targetPath, File.ReadAllText(Path.Combine(dirEntries[i], "asset")));
-                File.WriteAllText(targetMetaPath, File.ReadAllText(Path.Combine(dirEntries[i], "asset.meta")));
+                File.WriteAllText(targetPath, File.ReadAllText(Path.Combine(dirEntry, "asset")));
+                File.WriteAllText(targetMetaPath, File.ReadAllText(Path.Combine(dirEntry, "asset.meta")));
             }
 
             // Clean up
