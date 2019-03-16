@@ -4,11 +4,11 @@ version: 1.1.{build}
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
-  version: '${app_version}'
-  package_version: '${app_version}'
-  assembly_version: '${app_version}'
-  file_version: '${app_version}'
-  informational_version: '${app_version}'
+  version: $(app_version)
+  package_version: $(app_version)
+  assembly_version: $(app_version}
+  file_version: $(app_version)
+  informational_version: $(app_version)
 
 cache:
   - '%APPDATA%\npm-cache'
@@ -19,17 +19,15 @@ install:
       semantic-release --dry-run |  %{ 
         $fields = -split $_;
         if ($fields[0] -eq "#") {
-          Set-Variable -Name "Version" -Value $fields[1]
+          Set-Variable -Name "app_version" -Value $fields[1]
         }
       }
 
-      if ($Version -eq $null)
+      if ($app_version -eq $null)
       {
-        $Version = "0.0.1"
+        Set-Variable -Name "app_version" -Value 0.0.1
       }
-      echo "Version is $Version version is $version build is $build"
-
-      Set-Variable -Name app_version -Value "$Version" -Scope global
+      echo "Version is $app_version version is $version build is $build"
 
 build_script:
   - cmd: dotnet publish -f netcoreapp2.1
