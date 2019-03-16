@@ -61,7 +61,6 @@ namespace Tests
             var expected = new HashSet<string> { "sample1.txt", "childfolder/sample2.txt" };
 
             VerifyTar(expected, outstream);
-
         }
 
 
