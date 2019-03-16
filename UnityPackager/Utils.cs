@@ -1,7 +1,5 @@
-﻿using System.IO;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using ICSharpCode.SharpZipLib.Tar;
 
 namespace UnityPackager
 {
@@ -24,6 +22,5 @@ namespace UnityPackager
                 return stringBuilder.ToString();
             }
         }
-
     }
 }
