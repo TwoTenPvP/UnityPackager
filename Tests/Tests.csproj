@@ -15,4 +15,15 @@
   <ItemGroup>
     <ProjectReference Include="..\UnityPackager\UnityPackager.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="sample\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="sample\childfolder\sample2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="sample\sample1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

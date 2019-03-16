@@ -75,7 +75,7 @@ namespace UnityPackager
                         if (archive.RootPath.EndsWith("/"))
                             archive.RootPath = archive.RootPath.Remove(archive.RootPath.Length - 1);
 
-                        Archive.AddFilesInDirRecursive(archive, tempPath);
+                        Archive.AddFilesRecursive(archive, tempPath);
                     }
                 }
             }
