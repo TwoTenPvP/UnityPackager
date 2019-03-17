@@ -15,7 +15,8 @@ namespace Tests
             Dictionary<string, string> fileMap = new Dictionary<string, string>
             {
                 ["sample/sample1.txt"] = "sample1.txt",
-                ["sample/childfolder/sample2.txt"] = "sample2.txt"
+                ["sample/childfolder/sample2.txt"] = "sample2.txt",
+                ["sample/box.png"] = "images/box.png"
             };
 
             Packer.Pack(fileMap, "sample.unitypackage");
@@ -31,6 +32,8 @@ namespace Tests
             Assert.True(File.Exists("sample_out/sample2.txt"), "sample2.txt should have been decompressed");
             Assert.True(File.Exists("sample_out/sample1.meta"), "sample1.meta should have been generated");
             Assert.True(File.Exists("sample_out/sample2.meta"), "sample2.meta should have been generated");
+            Assert.True(File.Exists("sample_out/images/box.png"), "box.png should have been decompressed");
+            Assert.True(File.Exists("sample_out/images/box.meta"), "box.meta should have been decompressed");
         }
     }
 }
