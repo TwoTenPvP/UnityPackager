@@ -40,8 +40,8 @@ namespace Tests
             byte[] md5 = GetMD5("sample_out/images/box.png");
             Assert.Equal("A6-04-78-87-FC-41-65-97-76-D5-CB-4A-18-2F-33-7A", BitConverter.ToString(md5));
 
-            md5 = GetMD5("sample_out/sample2.meta");
-            Assert.Equal("f6-81-93-ef-62-fe-49-7c-e0-4a-23-8b-9f-12-08-37".ToUpper(), BitConverter.ToString(md5));
+            string meta2 = File.ReadAllText("sample_out/sample2.meta");
+            Assert.True(meta2.Contains("somethingelse"), "Packer should preserve our custom yaml files");
         }
 
         private static byte[] GetMD5(string file)
