@@ -49,7 +49,7 @@ namespace UnityPackager
                     // Requires research on how Unity does it, to fully mimic the real packing behaviour
                     using (StreamWriter writer = new StreamWriter(Path.Combine(tempPath, guid, "asset.meta")))
                     {
-                        new YamlStream(new YamlDocument(new YamlMappingNode()
+                        new YamlStream(new YamlDocument(new YamlMappingNode
                         {
                             {"guid", guid},
                             {"fileFormatVersion", "2"}
