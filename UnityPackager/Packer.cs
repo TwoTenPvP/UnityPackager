@@ -37,7 +37,7 @@ namespace UnityPackager
 
                 File.WriteAllText(Path.Combine(tempPath, guid, "pathname"), fileEntry.Value);
 
-                string metaPath = Path.Combine(Path.GetDirectoryName(fileEntry.Key), Path.GetFileNameWithoutExtension(fileEntry.Key) + ".meta");
+                string metaPath = Path.ChangeExtension(fileEntry.Key, ".meta");
 
                 if (File.Exists(metaPath))
                 {
