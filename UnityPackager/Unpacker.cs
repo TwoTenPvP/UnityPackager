@@ -38,7 +38,7 @@ namespace UnityPackager
                 if (File.Exists(targetMetaPath))
                     File.Delete(targetMetaPath);
 
-                File.WriteAllText(targetPath, File.ReadAllText(Path.Combine(dirEntry, "asset")));
+                File.Copy(Path.Combine(dirEntry, "asset"), targetPath);
                 File.WriteAllText(targetMetaPath, File.ReadAllText(Path.Combine(dirEntry, "asset.meta")));
             }
 
