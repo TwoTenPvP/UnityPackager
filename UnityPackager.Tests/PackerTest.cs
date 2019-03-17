@@ -23,9 +23,6 @@ namespace Tests
             Packer.Pack(fileMap, "sample.unitypackage");
 
             Assert.True(File.Exists("sample.unitypackage"), "Package should have been created");
-            // now let's unpack and check it out
-            string fullpath = Path.GetFullPath("sample.unitypackage");
-            Console.WriteLine($"Full path is {fullpath}");
 
             Unpacker.Unpack("sample.unitypackage", "sample_out");
 
@@ -41,6 +38,32 @@ namespace Tests
             Assert.Equal("A6-04-78-87-FC-41-65-97-76-D5-CB-4A-18-2F-33-7A", BitConverter.ToString(md5));
 
             string meta2 = File.ReadAllText("sample_out/sample2.meta");
+            Assert.True(meta2.Contains("somethingelse"), "Packer should preserve our custom yaml files");
+        }
+
+        [Fact]
+        public void RecursivePackTest()
+        {
+            Dictionary<string, string> fileMap = new Dictionary<string, string>
+            {
+                ["sample"] = "Assets/UnityPacker",
+            };
+
+            Packer.Pack(fileMap, "recursivesample.unitypackage");
+
+            Assert.True(File.Exists("recursivesample.unitypackage"), "Package should have been created");
+
+            Unpacker.Unpack("recursivesample.unitypackage", "rsample_out");
+
+            Assert.True(File.Exists("rsample_out/Assets/UnityPacker/sample1.txt"), "sample1.txt should have been decompressed");
+            Assert.True(File.Exists("rsample_out/Assets/UnityPacker/sample1.meta"), "sample1.meta should have been generated");
+
+            Assert.True(File.Exists("rsample_out/Assets/UnityPacker/childfolder/sample2.txt"), "sample2.txt should have been decompressed");
+            Assert.True(File.Exists("rsample_out/Assets/UnityPacker/childfolder/sample2.meta"), "sample2.meta should have been generated");
+            Assert.True(File.Exists("rsample_out/Assets/UnityPacker/box.png"), "box.png should have been decompressed");
+            Assert.True(File.Exists("rsample_out/Assets/UnityPacker/box.meta"), "box.meta should have been decompressed");
+
+            string meta2 = File.ReadAllText("rsample_out/Assets/UnityPacker/childfolder/sample2.meta");
             Assert.True(meta2.Contains("somethingelse"), "Packer should preserve our custom yaml files");
         }
 

@@ -30,7 +30,28 @@ namespace UnityPackager
         {
             foreach (KeyValuePair<string, string> fileEntry in files)
             {
-                AddAsset(tempPath, fileEntry.Key, fileEntry.Value);
+                if (File.Exists(fileEntry.Key))
+                    AddAsset(tempPath, fileEntry.Key, fileEntry.Value);
+                else if (Directory.Exists(fileEntry.Key))
+                    AddFolder(tempPath, fileEntry.Key, fileEntry.Value);
+                else
+                    throw new FileNotFoundException($"Could not find file or directory {fileEntry.Key}");
+            }
+        }
+
+        private static void AddFolder(string tempPath, string folder, string destination)
+        {
+            string[] files = Directory.GetFiles(folder, "*", SearchOption.AllDirectories);
+
+            foreach (string filename in files)
+            {
+                // metas will be copied with their asset
+                if (Path.GetExtension(filename) == ".meta")
+                    continue;
+
+                string destinationPath = Path.Combine(destination, Path.GetRelativePath(folder, filename));
+
+                AddAsset(tempPath, filename, destinationPath);
             }
         }
 
