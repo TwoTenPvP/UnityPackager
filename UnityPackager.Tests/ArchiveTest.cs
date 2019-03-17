@@ -40,7 +40,13 @@ namespace Tests
                 archive.AddFilesRecursive("sample");
             }
 
-            HashSet<string> expected = new HashSet<string> { "sample/sample1.txt", "sample/childfolder/sample2.txt", "sample/box.png" };
+            HashSet<string> expected = new HashSet<string>
+            {
+                "sample/sample1.txt",
+                "sample/childfolder/sample2.txt",
+                "sample/childfolder/sample2.meta",
+                "sample/box.png"
+            };
 
             VerifyTar(expected, outstream);
         }
@@ -57,7 +63,13 @@ namespace Tests
                 archive.AddFilesRecursive("sample");
             }
 
-            HashSet<string> expected = new HashSet<string> { "sample1.txt", "childfolder/sample2.txt" , "box.png"};
+            HashSet<string> expected = new HashSet<string> 
+            { 
+                "sample1.txt", 
+                "childfolder/sample2.txt" ,
+                "childfolder/sample2.meta" ,
+                "box.png"
+            };
 
             VerifyTar(expected, outstream);
         }
