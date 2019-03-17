@@ -30,21 +30,26 @@ namespace UnityPackager
         {
             foreach (KeyValuePair<string, string> fileEntry in files)
             {
-                YamlDocument meta = GetMeta(fileEntry.Key) ?? GenerateMeta(fileEntry.Value);
-
-                string guid = GetGuid(meta);
-
-                Directory.CreateDirectory(Path.Combine(tempPath, guid));
-
-                string assetPath = Path.Combine(tempPath, guid, "asset");
-                File.Copy(fileEntry.Key, assetPath);
-
-                string pathnamePath = Path.Combine(tempPath, guid, "pathname");
-                File.WriteAllText(pathnamePath, fileEntry.Value);
-
-                string metaPath = Path.Combine(tempPath, guid, "asset.meta");
-                SaveMeta(metaPath, meta);
+                AddAsset(tempPath, fileEntry.Key, fileEntry.Value);
             }
+        }
+
+        private static void AddAsset(string tempPath, string fromFile, string toPath)
+        {
+            YamlDocument meta = GetMeta(fromFile) ?? GenerateMeta(toPath);
+
+            string guid = GetGuid(meta);
+
+            Directory.CreateDirectory(Path.Combine(tempPath, guid));
+
+            string assetPath = Path.Combine(tempPath, guid, "asset");
+            File.Copy(fromFile, assetPath);
+
+            string pathnamePath = Path.Combine(tempPath, guid, "pathname");
+            File.WriteAllText(pathnamePath, toPath);
+
+            string metaPath = Path.Combine(tempPath, guid, "asset.meta");
+            SaveMeta(metaPath, meta);
         }
 
         private static void SaveMeta(string metaPath, YamlDocument meta)
