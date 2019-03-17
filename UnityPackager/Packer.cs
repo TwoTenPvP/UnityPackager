@@ -30,39 +30,73 @@ namespace UnityPackager
         {
             foreach (KeyValuePair<string, string> fileEntry in files)
             {
-                string guid = Utils.CreateGuid(fileEntry.Value);
+                YamlDocument meta = GetMeta(fileEntry.Key) ?? GenerateMeta(fileEntry.Value);
+
+                string guid = GetGuid(meta);
 
                 Directory.CreateDirectory(Path.Combine(tempPath, guid));
-                File.Copy(fileEntry.Key, Path.Combine(tempPath, guid, "asset"));
 
-                File.WriteAllText(Path.Combine(tempPath, guid, "pathname"), fileEntry.Value);
+                string assetPath = Path.Combine(tempPath, guid, "asset");
+                File.Copy(fileEntry.Key, assetPath);
 
-                string metaPath = Path.ChangeExtension(fileEntry.Key, ".meta");
+                string pathnamePath = Path.Combine(tempPath, guid, "pathname");
+                File.WriteAllText(pathnamePath, fileEntry.Value);
 
-                if (File.Exists(metaPath))
-                {
-                    File.Copy(metaPath, Path.Combine(tempPath, guid, "asset.meta"));
-                }
-                else
-                {
-                    // TODO: If a meta file exists, grab it instead of creating this barebones version.
-                    // Requires research on how Unity does it, to fully mimic the real packing behaviour
-                    using (StreamWriter writer = new StreamWriter(Path.Combine(tempPath, guid, "asset.meta")))
-                    {
-                        new YamlStream(new YamlDocument(new YamlMappingNode
+                string metaPath = Path.Combine(tempPath, guid, "asset.meta");
+                SaveMeta(metaPath, meta);
+            }
+        }
+
+        private static void SaveMeta(string metaPath, YamlDocument meta)
+        {
+            using (StreamWriter writer = new StreamWriter(metaPath))
+            {
+                new YamlStream(meta).Save(writer);
+            }
+
+            FileInfo metaFile = new FileInfo(metaPath);
+
+            using (FileStream metaFileStream = metaFile.Open(FileMode.Open))
+            {
+                metaFileStream.SetLength(metaFile.Length - 3 - Environment.NewLine.Length);
+            }
+        }
+
+        private static string GetGuid(YamlDocument meta)
+        {
+            YamlMappingNode mapping = (YamlMappingNode)meta.RootNode;
+
+            YamlScalarNode key = new YamlScalarNode("guid");
+
+            YamlScalarNode value = (YamlScalarNode)mapping[key];
+            return value.Value;
+        }
+
+        private static YamlDocument GenerateMeta(string filename)
+        {
+            string guid = Utils.CreateGuid(filename);
+
+            return new YamlDocument(new YamlMappingNode
                         {
                             {"guid", guid},
                             {"fileFormatVersion", "2"}
-                        })).Save(writer);
-                    }
+                        });
+        }
 
-                    FileInfo metaFile = new FileInfo(Path.Combine(Path.Combine(tempPath, guid, "asset.meta")));
+        private static YamlDocument GetMeta(string filename)
+        {
+            // do we have a .meta file?
+            string metaPath = Path.ChangeExtension(filename, ".meta");
 
-                    using (FileStream metaFileStream = metaFile.Open(FileMode.Open))
-                    {
-                        metaFileStream.SetLength(metaFile.Length - 3 - Environment.NewLine.Length);
-                    }
-                }
+            if (!File.Exists(metaPath))
+                return null;
+
+            using (StreamReader reader = new StreamReader(metaPath))
+            {
+                var yaml = new YamlStream();
+                yaml.Load(reader);
+
+                return yaml.Documents[0];
             }
         }
 

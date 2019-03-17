@@ -37,16 +37,18 @@ namespace Tests
             Assert.True(File.Exists("sample_out/images/box.meta"), "box.meta should have been decompressed");
 
             // let's make sure the file was not modified
-            byte[] md5 = GetMD5();
-
+            byte[] md5 = GetMD5("sample_out/images/box.png");
             Assert.Equal("A6-04-78-87-FC-41-65-97-76-D5-CB-4A-18-2F-33-7A", BitConverter.ToString(md5));
+
+            md5 = GetMD5("sample_out/sample2.meta");
+            Assert.Equal("f6-81-93-ef-62-fe-49-7c-e0-4a-23-8b-9f-12-08-37".ToUpper(), BitConverter.ToString(md5));
         }
 
-        private static byte[] GetMD5()
+        private static byte[] GetMD5(string file)
         {
             using (MD5 md5 = MD5.Create())
             {
-                using (var stream = File.OpenRead("sample_out/images/box.png"))
+                using (var stream = File.OpenRead(file))
                 {
                     return md5.ComputeHash(stream);
                 }
