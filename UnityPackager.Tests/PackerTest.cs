@@ -29,6 +29,8 @@ namespace Tests
 
             Assert.True(File.Exists("sample_out/sample1.txt"), "sample1.txt should have been decompressed");
             Assert.True(File.Exists("sample_out/sample2.txt"), "sample2.txt should have been decompressed");
+            Assert.True(File.Exists("sample_out/sample1.meta"), "sample1.meta should have been generated");
+            Assert.True(File.Exists("sample_out/sample2.meta"), "sample2.meta should have been generated");
         }
     }
 }
