@@ -3,10 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp2.1;netstandard2.0</TargetFrameworks>
-    <PackOnBuild>true</PackOnBuild>
-    <PackageId>UnityPackager</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
     <Description>Generates a unity package without requiring unity editor</Description>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
   </PropertyGroup>
 
   <ItemGroup>

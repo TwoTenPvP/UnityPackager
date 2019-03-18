@@ -1,5 +1,10 @@
 version: 1.1.{build}
 
+
+
+#init:
+#  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
@@ -29,12 +34,18 @@ install:
       echo "Version is $app_version version is $version build is $build"
 
 build_script:
-  - cmd: dotnet publish -f netcoreapp2.1
-
+  - cmd: dotnet publish -f netcoreapp2.1  -r win-x64
+  - ps: choco pack --version=$app_version
+  
 test_script: 
   - cmd: dotnet test -f netcoreapp2.1
+  - cmd: choco install unitypackager -s .
 
 deploy_script:
   - semantic-release
-
+  - ps: if ($app_version -ne "0.0.1") { choco push --source https://chocolatey.org/ -k $env:CHOCO_KEY }
+    
 skip_tags: true
+
+#on_finish:
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
