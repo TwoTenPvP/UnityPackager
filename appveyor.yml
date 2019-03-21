@@ -21,8 +21,9 @@ install:
   - npm install -g semantic-release@15
   - ps: |
       semantic-release --dry-run |  %{ 
+        echo $_
         $fields = -split $_;
-        if ($fields[0] -eq "#") {
+        if ($fields[0] -eq "#" -or $fields[0] -eq "##") {
           Set-Variable -Name "app_version" -Value $fields[1]
         }
       }
@@ -43,7 +44,7 @@ test_script:
 
 deploy_script:
   - semantic-release
-  - ps: if ($app_version -ne "0.0.1") { choco push --source https://chocolatey.org/ -k $env:CHOCO_KEY }
+  - ps: if ($app_version -ne "0.0.1" -and $env:CHOCO_KEY ) { choco push --source https://chocolatey.org/ -k $env:CHOCO_KEY }
     
 skip_tags: true
 
