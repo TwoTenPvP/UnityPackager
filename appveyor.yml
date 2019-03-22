@@ -36,6 +36,8 @@ install:
 
 build_script:
   - cmd: dotnet publish -f netcoreapp2.1  -r win-x64
+  - ps: Get-Filehash UnityPackager\bin\Debug\netcoreapp2.1\win-x64\publish\*.* > VERIFICATION.txt
+
   - ps: choco pack --version=$app_version
   
 test_script: 
