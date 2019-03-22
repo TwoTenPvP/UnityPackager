@@ -75,6 +75,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <!-- this section controls what actually gets packaged into the Chocolatey package -->
     <file src="UnityPackager\bin\Debug\netcoreapp2.1\win-x64\publish\*.*" target="tools"/>
     <file src="LICENSE" target="tools\LICENSE.txt"/>
+    <file src="VERIFICATION.txt" target="tools\VERIFICATION.txt"/>
     <!--Building from Linux? You may need this instead: <file src="tools/**" target="tools" />-->
   </files>
 </package>
