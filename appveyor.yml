@@ -30,7 +30,7 @@ install:
 
       if ($app_version -eq $null)
       {
-        Set-Variable -Name "app_version" -Value 0.0.1
+        Set-Variable -Name "app_version" -Value 1.2.1
       }
       echo "Version is $app_version version is $version build is $build"
 
@@ -38,15 +38,15 @@ build_script:
   - cmd: dotnet publish -f netcoreapp2.1  -r win-x64
   - ps: Get-Filehash UnityPackager\bin\Debug\netcoreapp2.1\win-x64\publish\*.* > VERIFICATION.txt
 
-  - ps: choco pack --version=$app_version
+  - ps: choco pack --verbose --version=$app_version
   
 test_script: 
   - cmd: dotnet test -f netcoreapp2.1
   - cmd: choco install unitypackager -s .
 
 deploy_script:
-  - semantic-release
-  - ps: if ($app_version -ne "0.0.1" -and $env:CHOCO_KEY ) { choco push --source https://chocolatey.org/ -k $env:CHOCO_KEY }
+  #- semantic-release
+  #- ps: if ($app_version -ne "0.0.1" -and $env:CHOCO_KEY ) { choco push --source https://chocolatey.org/ -k $env:CHOCO_KEY }
     
 skip_tags: true
 
