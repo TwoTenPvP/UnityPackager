@@ -30,7 +30,7 @@ install:
 
       if ($app_version -eq $null)
       {
-        Set-Variable -Name "app_version" -Value 0.0.1
+        Set-Variable -Name "app_version" -Value 1.2.1
       }
       echo "Version is $app_version version is $version build is $build"
 
@@ -45,7 +45,7 @@ test_script:
   - cmd: choco install unitypackager -s .
 
 deploy_script:
-  - semantic-release
+  #- semantic-release
   - ps: if ($app_version -ne "0.0.1" -and $env:CHOCO_KEY ) { choco push --source https://chocolatey.org/ -k $env:CHOCO_KEY }
     
 skip_tags: true
