@@ -112,7 +112,7 @@ namespace UnityPackager
         private static YamlDocument GetMeta(string filename)
         {
             // do we have a .meta file?
-            string metaPath = Path.ChangeExtension(filename, ".meta");
+            string metaPath = filename + ".meta";
 
             if (!File.Exists(metaPath))
                 return null;

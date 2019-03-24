@@ -27,7 +27,7 @@ namespace UnityPackager
 
                 string targetPath = Path.Combine(outputFolder, File.ReadAllText(Path.Combine(dirEntry, "pathname")));
                 string targetFolder = Path.GetDirectoryName(targetPath);
-                string targetMetaPath = Path.ChangeExtension(targetPath, ".meta");
+                string targetMetaPath = targetPath + ".meta";
 
                 if (!Directory.Exists(targetFolder))
                     Directory.CreateDirectory(targetFolder);

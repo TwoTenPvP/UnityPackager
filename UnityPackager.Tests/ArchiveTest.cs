@@ -44,7 +44,7 @@ namespace Tests
             {
                 "sample/sample1.txt",
                 "sample/childfolder/sample2.txt",
-                "sample/childfolder/sample2.meta",
+                "sample/childfolder/sample2.txt.meta",
                 "sample/box.png"
             };
 
@@ -67,7 +67,7 @@ namespace Tests
             { 
                 "sample1.txt", 
                 "childfolder/sample2.txt" ,
-                "childfolder/sample2.meta" ,
+                "childfolder/sample2.txt.meta" ,
                 "box.png"
             };
 

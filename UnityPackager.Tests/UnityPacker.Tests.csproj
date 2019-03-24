@@ -27,7 +27,7 @@
     <None Update="sample\box.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="sample\childfolder\sample2.meta">
+    <None Update="sample\childfolder\sample2.txt.meta">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
