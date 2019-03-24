@@ -44,7 +44,7 @@ test_script:
   - cmd: dotnet test -f netcoreapp2.1
   - cmd: choco install unitypackager -s .
 
-deploy_script:
+#deploy_script:
   #- semantic-release
   #- ps: if ($app_version -ne "0.0.1" -and $env:CHOCO_KEY ) { choco push --source https://chocolatey.org/ -k $env:CHOCO_KEY }
     
