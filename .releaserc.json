@@ -4,7 +4,7 @@
         "@semantic-release/release-notes-generator", 
         ["@semantic-release/github", {
             "assets": [
-                {"path": "UnityPackager.zip", "name": "UnityPackager-${nextRelease.version}.zip", "label": "UnityPackager"}
+                {"path": "UnityPackager.zip", "name": "UnityPackager.zip", "label": "UnityPackager"}
             ]
         }]
     ]
