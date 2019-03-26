@@ -37,8 +37,8 @@ install:
 build_script:
   - cmd: dotnet publish -f netcoreapp2.1  -r win-x64
   - cmd: copy LICENCE LICENSE.txt
-  - ps: Get-Filehash UnityPackager\bin\Debug\netcoreapp2.1\win-x64\publish\*.* >> VERIFICATION.txt  
-
+  - ps: echo "Original files can be found at https://github.com/TwoTenPvP/UnityPackager/releases" > VERIFICATION.txt
+  - ps: Get-Filehash UnityPackager\bin\Debug\netcoreapp2.1\win-x64\publish\*.* >> VERIFICATION.txt
   - ps: choco pack --verbose --version=$app_version
   
 artifacts:
@@ -50,7 +50,6 @@ test_script:
   - cmd: choco install unitypackager -s .
 
 deploy_script:
-  - dir
   - semantic-release
   - ps: if ($app_version -ne "0.0.1" -and $env:CHOCO_KEY ) { choco push --source https://chocolatey.org/ -k $env:CHOCO_KEY }
     
