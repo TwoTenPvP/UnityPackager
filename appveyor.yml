@@ -1,9 +1,7 @@
 version: 1.1.{build}
 
-
-
-init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#init:
+#  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 dotnet_csproj:
   patch: true
@@ -41,9 +39,11 @@ build_script:
   - ps: Get-Filehash UnityPackager\bin\Debug\netcoreapp2.1\win-x64\publish\*.* >> VERIFICATION.txt
   - ps: choco pack --verbose --version=$app_version
   
+after_build:
+  - 7z a UnityPackager.zip UnityPackager\bin\Debug\netcoreapp2.1\win-x64\publish\*.*
+
 artifacts:
-  - path: UnityPackager\bin\Debug\netcoreapp2.1\win-x64\publish
-    name: UnityPackager
+  - path: UnityPackager.zip
 
 test_script: 
   - cmd: dotnet test -f netcoreapp2.1
@@ -55,5 +55,5 @@ deploy_script:
     
 skip_tags: true
 
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish:
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
