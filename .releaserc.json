@@ -1,0 +1,11 @@
+{
+    "plugins": [
+        "@semantic-release/commit-analyzer", 
+        "@semantic-release/release-notes-generator", 
+        ["@semantic-release/github", {
+            "assets": [
+                {"path": "UnityPackager\\bin\\Debug\\netcoreapp2.1\\win-x64\\UnityPackager.zip", "name": "UnityPackager-${nextRelease.version}.zip", "label": "UnityPackager"},
+            ]
+        }]
+    ]
+}
