@@ -41,9 +41,13 @@ namespace UnityPackager
 
         private static void AddFolder(string tempPath, string folder, string destination)
         {
-            string[] files = Directory.GetFiles(folder, "*", SearchOption.AllDirectories);
+            string[] folders = Directory.GetDirectories(folder, "*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(folder, "*", SearchOption.AllDirectories );
 
-            foreach (string filename in files)
+            List<string> entries = new List<string>(folders);
+            entries.AddRange(files);
+
+            foreach (string filename in entries)
             {
                 // metas will be copied with their asset
                 if (Path.GetExtension(filename) == ".meta")
@@ -57,14 +61,17 @@ namespace UnityPackager
 
         private static void AddAsset(string tempPath, string fromFile, string toPath)
         {
-            YamlDocument meta = GetMeta(fromFile) ?? GenerateMeta(toPath);
+            YamlDocument meta = GetMeta(fromFile) ?? GenerateMeta(fromFile, toPath);
 
             string guid = GetGuid(meta);
 
             Directory.CreateDirectory(Path.Combine(tempPath, guid));
 
-            string assetPath = Path.Combine(tempPath, guid, "asset");
-            File.Copy(fromFile, assetPath);
+            if (File.Exists(fromFile))            
+            {
+                string assetPath = Path.Combine(tempPath, guid, "asset");
+                File.Copy(fromFile, assetPath);
+            }
 
             string pathnamePath = Path.Combine(tempPath, guid, "pathname");
             File.WriteAllText(pathnamePath, toPath);
@@ -98,15 +105,29 @@ namespace UnityPackager
             return value.Value;
         }
 
-        private static YamlDocument GenerateMeta(string filename)
+        private static YamlDocument GenerateMeta(string fromFile, string toFile)
         {
-            string guid = Utils.CreateGuid(filename);
+            string guid = Utils.CreateGuid(toFile);
 
-            return new YamlDocument(new YamlMappingNode
+            if (Directory.Exists(fromFile))
+            {
+                // this is a folder
+                return new YamlDocument(new YamlMappingNode
+                        {
+                            {"guid", guid},
+                            {"fileFormatVersion", "2"},
+                            {"folderAsset", "yes"}
+                        });
+            }
+            else
+            {
+                // this is a file
+                return new YamlDocument(new YamlMappingNode
                         {
                             {"guid", guid},
                             {"fileFormatVersion", "2"}
                         });
+            }
         }
 
         private static YamlDocument GetMeta(string filename)

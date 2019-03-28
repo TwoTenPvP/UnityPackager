@@ -19,7 +19,7 @@ namespace UnityPackager
 
             foreach (string dirEntry in dirEntries)
             {
-                if (!File.Exists(Path.Combine(dirEntry, "pathname")) || !File.Exists(Path.Combine(dirEntry, "asset")) || !File.Exists(Path.Combine(dirEntry, "asset.meta")))
+                if (!File.Exists(Path.Combine(dirEntry, "pathname")) || !File.Exists(Path.Combine(dirEntry, "asset.meta")))
                 {
                     // Invalid format
                     continue;
@@ -38,7 +38,14 @@ namespace UnityPackager
                 if (File.Exists(targetMetaPath))
                     File.Delete(targetMetaPath);
 
-                File.Copy(Path.Combine(dirEntry, "asset"), targetPath);
+                if (File.Exists(Path.Combine(dirEntry, "asset")))
+                {
+                    File.Copy(Path.Combine(dirEntry, "asset"), targetPath);
+                }
+                else
+                {
+                    Directory.CreateDirectory(targetPath);
+                }
                 File.WriteAllText(targetMetaPath, File.ReadAllText(Path.Combine(dirEntry, "asset.meta")));
             }
 

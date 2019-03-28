@@ -60,6 +60,7 @@ namespace Tests
 
             Assert.True(File.Exists("rsample_out/Assets/UnityPacker/childfolder/sample2.txt"), "sample2.txt should have been decompressed");
             Assert.True(File.Exists("rsample_out/Assets/UnityPacker/childfolder/sample2.txt.meta"), "sample2.meta should have been generated");
+            Assert.True(File.Exists("rsample_out/Assets/UnityPacker/childfolder.meta"), "childfolder.meta should have been generated");
             Assert.True(File.Exists("rsample_out/Assets/UnityPacker/box.png"), "box.png should have been decompressed");
             Assert.True(File.Exists("rsample_out/Assets/UnityPacker/box.png.meta"), "box.meta should have been decompressed");
 
