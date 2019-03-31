@@ -38,7 +38,8 @@ namespace Tests
             Assert.Equal("A6-04-78-87-FC-41-65-97-76-D5-CB-4A-18-2F-33-7A", BitConverter.ToString(md5));
 
             string meta2 = File.ReadAllText("sample_out/sample2.txt.meta");
-            Assert.True(meta2.Contains("somethingelse"), "Packer should preserve our custom yaml files");
+            Assert.True(meta2.Contains("serializedVersion: 2"), "Packer should preserve our custom yaml files");
+            Assert.True(meta2.Contains("fileFormatVersion: 2"), "Packer should preserve file format");
         }
 
         [Fact]
@@ -65,7 +66,9 @@ namespace Tests
             Assert.True(File.Exists("rsample_out/Assets/UnityPacker/box.png.meta"), "box.meta should have been decompressed");
 
             string meta2 = File.ReadAllText("rsample_out/Assets/UnityPacker/childfolder/sample2.txt.meta");
-            Assert.True(meta2.Contains("somethingelse"), "Packer should preserve our custom yaml files");
+            Assert.True(meta2.Contains("serializedVersion: 2"), "Packer should preserve our custom yaml files");
+            Assert.True(meta2.Contains("fileFormatVersion: 2"), "Packer should preserve file format");
+
         }
 
         private static byte[] GetMD5(string file)
