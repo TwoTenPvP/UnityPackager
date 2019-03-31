@@ -55,6 +55,9 @@ namespace UnityPackager
 
                 string destinationPath = Path.Combine(destination, Path.GetRelativePath(folder, filename));
 
+                // unitypackage is always using / for directory separator
+                destinationPath = destinationPath.Replace(Path.DirectorySeparatorChar, '/');
+
                 AddAsset(tempPath, filename, destinationPath);
             }
         }
