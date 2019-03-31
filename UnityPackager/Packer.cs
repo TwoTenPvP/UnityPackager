@@ -84,7 +84,7 @@ namespace UnityPackager
         {
             using (StreamWriter writer = new StreamWriter(metaPath))
             {
-                new YamlStream(meta).Save(writer);
+                new YamlStream(meta).Save(writer, false);
             }
 
             FileInfo metaFile = new FileInfo(metaPath);
